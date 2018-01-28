@@ -13,32 +13,31 @@ namespace WindowsFormsApplication1
     partial class MForm : Form
     {
 
-        private MonthCalendar calendar;
-        private Label date;
+        private Label text;
 
         public MForm()
         {
-            Text = "Month Calendar";
-            Size = new Size(240, 240);
-
-            calendar = new MonthCalendar();
-            calendar.Parent = this;
-            calendar.Location = new Point(20, 20);
-            calendar.DateSelected += new DateRangeEventHandler(OnSelected);
-
-            date = new Label();
-            date.Location = new Point(40, 170);
-            date.Parent = this;
-            DateTime dt = calendar.SelectionStart;
-            date.Text = dt.Month + "/" + dt.Day + "/" + dt.Year;
-
+            Text = "TextBox";
+            Size = new Size(250, 200);
             CenterToScreen();
+
+            text = new Label();
+            text.Parent = this;
+            text.Text = "...";
+            text.Location = new Point(60, 40);
+            text.AutoSize = true;
+
+            TextBox tbox = new TextBox();
+            tbox.Parent = this;
+            tbox.Location = new Point(60, 100);
+            tbox.KeyUp += new KeyEventHandler(OnKeyUp);
+
         }
 
-        void OnSelected(object sender, EventArgs e)
+        void OnKeyUp(object sender, KeyEventArgs e)
         {
-            DateTime dt = calendar.SelectionStart;
-            date.Text = dt.Month + "/" + dt.Day + "/" + dt.Year;
+            TextBox tb = (TextBox)sender;
+            this.text.Text = tb.Text;
         }
     }
 }
