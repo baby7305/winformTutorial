@@ -10,6 +10,18 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
 {
+    public class Actress
+    {
+        public string name;
+        public int year;
+
+        public Actress(string name, int year)
+        {
+            this.name = name;
+            this.year = year;
+        }
+    }
+
     partial class MForm : Form
     {
 
@@ -17,32 +29,76 @@ namespace WindowsFormsApplication1
 
         public MForm()
         {
-            Text = "ListBox";
-            Size = new Size(210, 210);
+            Text = "ListView";
+            Size = new Size(350, 300);
 
-            ListBox lb = new ListBox();
-            lb.Parent = this;
-            lb.Items.Add("Jessica");
-            lb.Items.Add("Rachel");
-            lb.Items.Add("Angelina");
-            lb.Items.Add("Amy");
-            lb.Items.Add("Jennifer");
-            lb.Items.Add("Scarlett");
 
-            lb.Dock = DockStyle.Fill;
-            lb.SelectedIndexChanged += new EventHandler(OnChanged);
+            List<Actress> actresses = new List<Actress>();
+
+            actresses.Add(new Actress("Jessica Alba", 1981));
+            actresses.Add(new Actress("Angelina Jolie", 1975));
+            actresses.Add(new Actress("Natalie Portman", 1981));
+            actresses.Add(new Actress("Rachel Weiss", 1971));
+            actresses.Add(new Actress("Scarlett Johansson", 1984));
+
+
+            ColumnHeader name = new ColumnHeader();
+            name.Text = "Name";
+            name.Width = -1;
+            ColumnHeader year = new ColumnHeader();
+            year.Text = "Year";
+
+            SuspendLayout();
+
+            ListView lv = new ListView();
+            lv.Parent = this;
+            lv.FullRowSelect = true;
+            lv.GridLines = true;
+            lv.AllowColumnReorder = true;
+            lv.Sorting = SortOrder.Ascending;
+            lv.Columns.AddRange(new ColumnHeader[] { name, year });
+            lv.ColumnClick += new ColumnClickEventHandler(ColumnClick);
+
+            foreach (Actress act in actresses)
+            {
+                ListViewItem item = new ListViewItem();
+                item.Text = act.name;
+                item.SubItems.Add(act.year.ToString());
+                lv.Items.Add(item);
+            }
+
+            lv.Dock = DockStyle.Fill;
+            lv.Click += new EventHandler(OnChanged);
 
             sb = new StatusBar();
             sb.Parent = this;
+            lv.View = View.Details;
+
+            ResumeLayout();
 
             CenterToScreen();
         }
 
-
         void OnChanged(object sender, EventArgs e)
         {
-            ListBox lb = (ListBox)sender;
-            sb.Text = lb.SelectedItem.ToString();
+            ListView lv = (ListView)sender;
+            string name = lv.SelectedItems[0].SubItems[0].Text;
+            string born = lv.SelectedItems[0].SubItems[1].Text;
+            sb.Text = name + ", " + born;
+        }
+
+        void ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            ListView lv = (ListView)sender;
+
+            if (lv.Sorting == SortOrder.Ascending)
+            {
+                lv.Sorting = SortOrder.Descending;
+            }
+            else
+            {
+                lv.Sorting = SortOrder.Ascending;
+            }
         }
     }
 }
