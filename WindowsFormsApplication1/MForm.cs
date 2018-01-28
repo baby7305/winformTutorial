@@ -13,62 +13,52 @@ namespace WindowsFormsApplication1
     partial class MForm : Form
     {
 
+        private Label text;
         private ToolBar toolbar;
         private ToolBarButton open;
-        private Color color;
-
-        private int rectWidth = 100;
-        private int rectHeight = 100;
-        private Rectangle r;
 
         public MForm()
         {
-            Text = "ColorDialog";
+            Text = "FontDialog";
 
-            color = Color.Blue;
+            text = new Label();
+            text.Parent = this;
+            text.Text = "Winforms tutorial";
+
+            LocateText();
 
             toolbar = new ToolBar();
-            open = new ToolBarButton("color");
+            toolbar.Parent = this;
+            open = new ToolBarButton("font");
 
             toolbar.Buttons.Add(open);
             toolbar.ButtonClick += new ToolBarButtonClickEventHandler(OnClicked);
 
-            LocateRect();
-
-            SetStyle(ControlStyles.ResizeRedraw, true);
-            Controls.Add(toolbar);
-            Paint += new PaintEventHandler(OnPaint);
+            text.AutoSize = true;
+            Resize += new EventHandler(OnResize);
 
             CenterToScreen();
         }
 
-
-        void OnPaint(object sender, PaintEventArgs e)
+        void OnResize(object sender, EventArgs e)
         {
-            Graphics g = e.Graphics;
-            LocateRect();
-
-            SolidBrush brush = new SolidBrush(color);
-
-            g.FillRectangle(brush, r);
+            LocateText();
         }
-
 
         void OnClicked(object sender, ToolBarButtonClickEventArgs e)
         {
-            ColorDialog dialog = new ColorDialog();
+            FontDialog dialog = new FontDialog();
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                color = dialog.Color;
-                Invalidate();
+                text.Font = dialog.Font;
+                LocateText();
             }
         }
 
-        void LocateRect()
+        void LocateText()
         {
-            int x = (ClientSize.Width - rectWidth) / 2;
-            int y = (ClientSize.Height - rectHeight) / 2;
-            r = new Rectangle(x, y, rectWidth, rectHeight);
+            text.Top = (this.ClientSize.Height - text.Height) / 2;
+            text.Left = (this.ClientSize.Width - text.Width) / 2;
         }
     }
 }
