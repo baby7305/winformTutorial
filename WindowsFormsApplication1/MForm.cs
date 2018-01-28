@@ -13,31 +13,36 @@ namespace WindowsFormsApplication1
     partial class MForm : Form
     {
 
-        private Label text;
+        private StatusBar sb;
 
         public MForm()
         {
-            Text = "TextBox";
-            Size = new Size(250, 200);
+            Text = "ListBox";
+            Size = new Size(210, 210);
+
+            ListBox lb = new ListBox();
+            lb.Parent = this;
+            lb.Items.Add("Jessica");
+            lb.Items.Add("Rachel");
+            lb.Items.Add("Angelina");
+            lb.Items.Add("Amy");
+            lb.Items.Add("Jennifer");
+            lb.Items.Add("Scarlett");
+
+            lb.Dock = DockStyle.Fill;
+            lb.SelectedIndexChanged += new EventHandler(OnChanged);
+
+            sb = new StatusBar();
+            sb.Parent = this;
+
             CenterToScreen();
-
-            text = new Label();
-            text.Parent = this;
-            text.Text = "...";
-            text.Location = new Point(60, 40);
-            text.AutoSize = true;
-
-            TextBox tbox = new TextBox();
-            tbox.Parent = this;
-            tbox.Location = new Point(60, 100);
-            tbox.KeyUp += new KeyEventHandler(OnKeyUp);
-
         }
 
-        void OnKeyUp(object sender, KeyEventArgs e)
+
+        void OnChanged(object sender, EventArgs e)
         {
-            TextBox tb = (TextBox)sender;
-            this.text.Text = tb.Text;
+            ListBox lb = (ListBox)sender;
+            sb.Text = lb.SelectedItem.ToString();
         }
     }
 }
