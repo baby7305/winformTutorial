@@ -13,63 +13,38 @@ namespace WindowsFormsApplication1
     partial class MForm : Form
     {
 
-        PictureBox pb;
-        TrackBar tb;
-        Bitmap mute, min, med, max;
+        private ComboBox cb;
+        private Label label;
 
         public MForm()
         {
-            Text = "TrackBar";
-            Size = new Size(260, 190);
+            Text = "ComboBox";
+            Size = new Size(240, 240);
 
-            tb = new TrackBar();
-            tb.Parent = this;
-            tb.Size = new Size(160, 30);
-            tb.Location = new Point(20, 40);
-            tb.TickStyle = TickStyle.None;
+            cb = new ComboBox();
+            cb.Parent = this;
+            cb.Location = new Point(50, 30);
 
-            tb.ValueChanged += new EventHandler(OnChanged);
+            cb.Items.AddRange(new object[] {"Ubuntu",
+                "Mandriva",
+                "Red Hat",
+                "Fedora",
+                "Gentoo"});
 
-            LoadImages();
+            cb.SelectionChangeCommitted += new EventHandler(OnChanged);
 
-            pb = new PictureBox();
-            pb.Parent = this;
-            pb.Location = new Point(210, 50);
-            pb.Image = mute;
+            label = new Label();
+            label.Location = new Point(50, 140);
+            label.Parent = this;
+            label.Text = "...";
 
             CenterToScreen();
-
         }
-
-        void LoadImages()
-        {
-            mute = new Bitmap("res/mute.png");
-            min = new Bitmap("res/min.png");
-            med = new Bitmap("res/med.png");
-            max = new Bitmap("res/max.png");
-        }
-
 
         void OnChanged(object sender, EventArgs e)
         {
-            int val = tb.Value;
-
-            if (val == 0)
-            {
-                pb.Image = mute;
-            }
-            else if (val > 0 && val <= 3)
-            {
-                pb.Image = min;
-            }
-            else if (val > 3 && val < 8)
-            {
-                pb.Image = med;
-            }
-            else
-            {
-                pb.Image = max;
-            }
+            ComboBox combo = (ComboBox)sender;
+            label.Text = combo.Text;
         }
     }
 }
