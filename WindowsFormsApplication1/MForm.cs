@@ -10,13 +10,31 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
 {
-    public partial class MForm : Form
+    partial class MForm : Form
     {
         public MForm()
         {
-            Text = "Form1";
+            Text = "Simple menu";
+
+            MenuStrip ms = new MenuStrip();
+            ms.Parent = this;
+
+            ToolStripMenuItem file = new ToolStripMenuItem("&File");
+            ToolStripMenuItem exit = new ToolStripMenuItem("&Exit", null,
+                new EventHandler(OnExit));
+            exit.ShortcutKeys = Keys.Control | Keys.X;
+            file.DropDownItems.Add(exit);
+
+            ms.Items.Add(file);
+            MainMenuStrip = ms;
             Size = new Size(250, 200);
+
             CenterToScreen();
+        }
+
+        void OnExit(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
