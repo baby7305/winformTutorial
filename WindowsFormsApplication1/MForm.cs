@@ -12,23 +12,31 @@ namespace WindowsFormsApplication1
 {
     partial class MForm : Form
     {
-
         public MForm()
         {
-            Text = "Tooltips";
+            Text = "Button";
             Size = new Size(250, 200);
 
-            ToolTip btnTlp = new ToolTip();
-
-            btnTlp.SetToolTip(this, "This is a Form");
-
             Button button = new Button();
-            btnTlp.SetToolTip(button, "This is a Button Control");
-            button.Text = "Button";
-            button.Location = new Point(30, 70);
-            button.Parent = this;
 
+            button.Location = new Point(30, 20);
+            button.Text = "Quit";
+            button.Click += new EventHandler(OnClick);
+            button.MouseEnter += new EventHandler(OnEnter);
+
+            Controls.Add(button);
             CenterToScreen();
         }
+
+        void OnClick(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        void OnEnter(object sender, EventArgs e)
+        {
+            Console.WriteLine("Button Entered");
+        }
+
     }
 }
