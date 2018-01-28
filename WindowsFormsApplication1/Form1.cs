@@ -14,7 +14,9 @@ namespace WindowsFormsApplication1
     {
         public Form1()
         {
-            InitializeComponent();
+            Text = "Form1";
+            Size = new Size(250, 200);
+            CenterToScreen();
         }
     }
 }
