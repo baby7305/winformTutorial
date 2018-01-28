@@ -16,21 +16,31 @@ namespace WindowsFormsApplication1
 
         public MForm()
         {
-            Text = "Anchor";
-            Size = new Size(210, 210);
+            Text = "Editor";
+            Size = new Size(210, 180);
 
-            Button btn1 = new Button();
-            btn1.Text = "Button";
-            btn1.Parent = this;
-            btn1.Location = new Point(30, 30);
+            MainMenu mainMenu = new MainMenu();
+            MenuItem file = mainMenu.MenuItems.Add("&File");
+            file.MenuItems.Add(new MenuItem("E&xit",
+                new EventHandler(this.OnExit), Shortcut.CtrlX));
 
-            Button btn2 = new Button();
-            btn2.Text = "Button";
-            btn2.Parent = this;
-            btn2.Location = new Point(30, 80);
-            btn2.Anchor = AnchorStyles.Right;
+            Menu = mainMenu;
+
+            TextBox tb = new TextBox();
+            tb.Parent = this;
+            tb.Dock = DockStyle.Fill;
+            tb.Multiline = true;
+
+            StatusBar sb = new StatusBar();
+            sb.Parent = this;
+            sb.Text = "Ready";
 
             CenterToScreen();
+        }
+
+        void OnExit(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
