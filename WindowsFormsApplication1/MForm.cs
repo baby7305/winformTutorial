@@ -13,33 +13,62 @@ namespace WindowsFormsApplication1
     partial class MForm : Form
     {
 
-        private CheckBox cb;
+        PictureBox pb;
+        TrackBar tb;
+        Bitmap mute, min, med, max;
 
         public MForm()
         {
-            Text = "CheckBox";
-            Size = new Size(220, 170);
+            Text = "TrackBar";
+            Size = new Size(260, 190);
 
-            cb = new CheckBox();
-            cb.Parent = this;
-            cb.Location = new Point(30, 30);
-            cb.Text = "Show Title";
-            cb.Checked = true;
+            tb = new TrackBar();
+            tb.Parent = this;
+            tb.Size = new Size(160, 30);
+            tb.Location = new Point(20, 40);
+            tb.TickStyle = TickStyle.None;
 
-            cb.CheckedChanged += new EventHandler(OnChanged);
+            tb.ValueChanged += new EventHandler(OnChanged);
+
+            LoadImages();
+
+            pb = new PictureBox();
+            pb.Parent = this;
+            pb.Location = new Point(210, 50);
+            pb.Image = mute;
 
             CenterToScreen();
+
         }
+
+        void LoadImages()
+        {
+            mute = new Bitmap("res/mute.png");
+            min = new Bitmap("res/min.png");
+            med = new Bitmap("res/med.png");
+            max = new Bitmap("res/max.png");
+        }
+
 
         void OnChanged(object sender, EventArgs e)
         {
-            if (cb.Checked)
+            int val = tb.Value;
+
+            if (val == 0)
             {
-                Text = "CheckBox";
+                pb.Image = mute;
+            }
+            else if (val > 0 && val <= 3)
+            {
+                pb.Image = min;
+            }
+            else if (val > 3 && val < 8)
+            {
+                pb.Image = med;
             }
             else
             {
-                Text = "";
+                pb.Image = max;
             }
         }
     }
