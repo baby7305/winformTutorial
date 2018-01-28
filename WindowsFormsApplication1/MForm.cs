@@ -10,22 +10,23 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
 {
-    public partial class MForm : Form
+    partial class MForm : Form
     {
+
         public MForm()
         {
-            Text = "Icon";
+            Text = "Tooltips";
             Size = new Size(250, 200);
 
-            try
-            {
-                Icon = new Icon("res/web.ico");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                Environment.Exit(1);
-            }
+            ToolTip btnTlp = new ToolTip();
+
+            btnTlp.SetToolTip(this, "This is a Form");
+
+            Button button = new Button();
+            btnTlp.SetToolTip(button, "This is a Button Control");
+            button.Text = "Button";
+            button.Location = new Point(30, 70);
+            button.Parent = this;
 
             CenterToScreen();
         }
