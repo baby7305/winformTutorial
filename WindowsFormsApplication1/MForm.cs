@@ -13,34 +13,44 @@ namespace WindowsFormsApplication1
     partial class MForm : Form
     {
 
+        private int WIDTH = 250;
+        private int HEIGHT = 150;
+        private int BUTTONS_SPACE = 15;
+        private int PANEL_SPACE = 8;
+        private int CLOSE_SPACE = 10;
 
         public MForm()
         {
-            Text = "Editor";
-            Size = new Size(210, 180);
+            Text = "Anchor";
+            Size = new Size(WIDTH, HEIGHT);
 
-            MainMenu mainMenu = new MainMenu();
-            MenuItem file = mainMenu.MenuItems.Add("&File");
-            file.MenuItems.Add(new MenuItem("E&xit",
-                new EventHandler(this.OnExit), Shortcut.CtrlX));
+            Button ok = new Button();
 
-            Menu = mainMenu;
+            int PANEL_HEIGHT = ok.Height + PANEL_SPACE;
 
-            TextBox tb = new TextBox();
-            tb.Parent = this;
-            tb.Dock = DockStyle.Fill;
-            tb.Multiline = true;
+            Panel panel = new Panel();
+            panel.Height = PANEL_HEIGHT;
+            panel.Dock = DockStyle.Bottom;
+            panel.Parent = this;
 
-            StatusBar sb = new StatusBar();
-            sb.Parent = this;
-            sb.Text = "Ready";
+            int x = ok.Width * 2 + BUTTONS_SPACE;
+            int y = (PANEL_HEIGHT - ok.Height) / 2;
+
+            ok.Text = "Ok";
+            ok.Parent = panel;
+            ok.Location = new Point(WIDTH - x, y);
+            ok.Anchor = AnchorStyles.Right;
+
+            Button close = new Button();
+
+            x = close.Width;
+
+            close.Text = "Close";
+            close.Parent = panel;
+            close.Location = new Point(WIDTH - x - CLOSE_SPACE, y);
+            close.Anchor = AnchorStyles.Right;
 
             CenterToScreen();
-        }
-
-        void OnExit(object sender, EventArgs e)
-        {
-            Close();
         }
     }
 }
