@@ -10,48 +10,44 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
 {
-    partial class MForm : Form
+    public partial class MForm : Form
     {
-
+        private ImageList toolBarIcons;
+        private ToolBarButton save;
+        private ToolBarButton exit;
+        private ToolBar toolBar;
 
         public MForm()
         {
-            Text = "MenuStrip";
             Size = new Size(250, 200);
+            Text = "Simple toolbar";
 
-            MenuStrip menuStrip = new MenuStrip();
+            toolBar = new ToolBar();
+            toolBar.Parent = this;
+            toolBarIcons = new ImageList();
+            save = new ToolBarButton();
+            exit = new ToolBarButton();
 
-            ToolStripMenuItem titem1 = new ToolStripMenuItem("File");
-            menuStrip.Items.Add(titem1);
+            save.ImageIndex = 0;
+            save.Tag = "Save";
+            exit.ImageIndex = 1;
+            exit.Tag = "Exit";
 
-            ToolStripMenuItem titem2 = new ToolStripMenuItem("Tools");
-            menuStrip.Items.Add(titem2);
+            toolBar.ImageList = toolBarIcons;
+            toolBar.ShowToolTips = true;
+            toolBar.Buttons.AddRange(new ToolBarButton[] { save, exit });
+            toolBar.ButtonClick += new ToolBarButtonClickEventHandler(OnClicked);
 
-            ToolStripMenuItem subm1 = new ToolStripMenuItem("New");
-            subm1.Image = Image.FromFile("res/new.png");
-            titem1.DropDownItems.Add(subm1);
-
-            ToolStripMenuItem subm2 = new ToolStripMenuItem("Open");
-            subm2.Image = Image.FromFile("res/open.png");
-            titem1.DropDownItems.Add(subm2);
-
-            titem1.DropDownItems.Add(new ToolStripSeparator());
-
-            ToolStripMenuItem subm3 = new ToolStripMenuItem("Exit");
-            subm3.Image = Image.FromFile("res/exit.png");
-            titem1.DropDownItems.Add(subm3);
-
-            subm3.Click += OnExit;
-            Controls.Add(menuStrip);
-
-            MainMenuStrip = menuStrip;
+            toolBarIcons.Images.Add(new Icon("res/web.ico"));
+            toolBarIcons.Images.Add(new Icon("res/web.ico"));
 
             CenterToScreen();
         }
 
-        void OnExit(object sender, EventArgs e)
+        void OnClicked(object sender, ToolBarButtonClickEventArgs e)
         {
-            Close();
+            if (e.Button.Tag.Equals("Exit"))
+                Close();
         }
     }
 }
