@@ -13,38 +13,32 @@ namespace WindowsFormsApplication1
     partial class MForm : Form
     {
 
-        private ComboBox cb;
-        private Label label;
+        private MonthCalendar calendar;
+        private Label date;
 
         public MForm()
         {
-            Text = "ComboBox";
+            Text = "Month Calendar";
             Size = new Size(240, 240);
 
-            cb = new ComboBox();
-            cb.Parent = this;
-            cb.Location = new Point(50, 30);
+            calendar = new MonthCalendar();
+            calendar.Parent = this;
+            calendar.Location = new Point(20, 20);
+            calendar.DateSelected += new DateRangeEventHandler(OnSelected);
 
-            cb.Items.AddRange(new object[] {"Ubuntu",
-                "Mandriva",
-                "Red Hat",
-                "Fedora",
-                "Gentoo"});
-
-            cb.SelectionChangeCommitted += new EventHandler(OnChanged);
-
-            label = new Label();
-            label.Location = new Point(50, 140);
-            label.Parent = this;
-            label.Text = "...";
+            date = new Label();
+            date.Location = new Point(40, 170);
+            date.Parent = this;
+            DateTime dt = calendar.SelectionStart;
+            date.Text = dt.Month + "/" + dt.Day + "/" + dt.Year;
 
             CenterToScreen();
         }
 
-        void OnChanged(object sender, EventArgs e)
+        void OnSelected(object sender, EventArgs e)
         {
-            ComboBox combo = (ComboBox)sender;
-            label.Text = combo.Text;
+            DateTime dt = calendar.SelectionStart;
+            date.Text = dt.Month + "/" + dt.Day + "/" + dt.Year;
         }
     }
 }
