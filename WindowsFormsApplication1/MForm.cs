@@ -10,12 +10,23 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
 {
-    public partial class Form1 : Form
+    public partial class MForm : Form
     {
-        public Form1()
+        public MForm()
         {
-            Text = "Form1";
+            Text = "Icon";
             Size = new Size(250, 200);
+
+            try
+            {
+                Icon = new Icon("res/web.ico");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
+            }
+
             CenterToScreen();
         }
     }
