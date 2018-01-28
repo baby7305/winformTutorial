@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,52 +14,46 @@ namespace WindowsFormsApplication1
     partial class MForm : Form
     {
 
-        private Label text;
         private ToolBar toolbar;
         private ToolBarButton open;
+        private TextBox textbox;
 
         public MForm()
         {
-            Text = "FontDialog";
-
-            text = new Label();
-            text.Parent = this;
-            text.Text = "Winforms tutorial";
-
-            LocateText();
+            Text = "OpenFileDialog";
 
             toolbar = new ToolBar();
-            toolbar.Parent = this;
-            open = new ToolBarButton("font");
+            open = new ToolBarButton("open");
+
+            textbox = new TextBox();
+            textbox.Multiline = true;
+            textbox.ScrollBars = ScrollBars.Both;
+            textbox.WordWrap = false;
+            textbox.Parent = this;
+            textbox.Dock = DockStyle.Fill;
+
 
             toolbar.Buttons.Add(open);
             toolbar.ButtonClick += new ToolBarButtonClickEventHandler(OnClicked);
 
-            text.AutoSize = true;
-            Resize += new EventHandler(OnResize);
+            Controls.Add(toolbar);
+            Controls.Add(textbox);
 
             CenterToScreen();
         }
 
-        void OnResize(object sender, EventArgs e)
-        {
-            LocateText();
-        }
-
         void OnClicked(object sender, ToolBarButtonClickEventArgs e)
         {
-            FontDialog dialog = new FontDialog();
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "C# files (*.cs)|*.cs";
+
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                text.Font = dialog.Font;
-                LocateText();
+                StreamReader reader = new StreamReader(dialog.FileName);
+                string data = reader.ReadToEnd();
+                reader.Close();
+                textbox.Text = data;
             }
-        }
-
-        void LocateText()
-        {
-            text.Top = (this.ClientSize.Height - text.Height) / 2;
-            text.Left = (this.ClientSize.Width - text.Width) / 2;
         }
     }
 }
