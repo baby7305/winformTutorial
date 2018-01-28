@@ -13,31 +13,38 @@ namespace WindowsFormsApplication1
     partial class MForm : Form
     {
 
-        private StatusBar sb;
-        private MenuItem viewStatusBar;
 
         public MForm()
         {
-            Text = "Check menu item";
-
-            sb = new StatusBar();
-            sb.Parent = this;
-            sb.Text = "Ready";
-
-            MainMenu mainMenu = new MainMenu();
-
-            MenuItem file = mainMenu.MenuItems.Add("&File");
-            file.MenuItems.Add(new MenuItem("E&xit",
-                new EventHandler(OnExit), Shortcut.CtrlX));
-
-            MenuItem view = mainMenu.MenuItems.Add("&View");
-            viewStatusBar = new MenuItem("View StatusBar");
-            viewStatusBar.Checked = true;
-            viewStatusBar.Click += new EventHandler(ToggleStatusBar);
-            view.MenuItems.Add(viewStatusBar);
-
-            Menu = mainMenu;
+            Text = "MenuStrip";
             Size = new Size(250, 200);
+
+            MenuStrip menuStrip = new MenuStrip();
+
+            ToolStripMenuItem titem1 = new ToolStripMenuItem("File");
+            menuStrip.Items.Add(titem1);
+
+            ToolStripMenuItem titem2 = new ToolStripMenuItem("Tools");
+            menuStrip.Items.Add(titem2);
+
+            ToolStripMenuItem subm1 = new ToolStripMenuItem("New");
+            subm1.Image = Image.FromFile("res/new.png");
+            titem1.DropDownItems.Add(subm1);
+
+            ToolStripMenuItem subm2 = new ToolStripMenuItem("Open");
+            subm2.Image = Image.FromFile("res/open.png");
+            titem1.DropDownItems.Add(subm2);
+
+            titem1.DropDownItems.Add(new ToolStripSeparator());
+
+            ToolStripMenuItem subm3 = new ToolStripMenuItem("Exit");
+            subm3.Image = Image.FromFile("res/exit.png");
+            titem1.DropDownItems.Add(subm3);
+
+            subm3.Click += OnExit;
+            Controls.Add(menuStrip);
+
+            MainMenuStrip = menuStrip;
 
             CenterToScreen();
         }
@@ -46,21 +53,5 @@ namespace WindowsFormsApplication1
         {
             Close();
         }
-
-        void ToggleStatusBar(object sender, EventArgs e)
-        {
-            bool check = viewStatusBar.Checked;
-            if (check)
-            {
-                sb.Visible = false;
-                viewStatusBar.Checked = false;
-            }
-            else
-            {
-                sb.Visible = true;
-                viewStatusBar.Checked = true;
-            }
-        }
-
     }
 }
