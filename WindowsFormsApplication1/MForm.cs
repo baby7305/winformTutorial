@@ -12,9 +12,10 @@ namespace WindowsFormsApplication1
 {
     partial class MForm : Form
     {
+
         public MForm()
         {
-            Text = "Simple menu";
+            Text = "Submenu";
 
             MenuStrip ms = new MenuStrip();
             ms.Parent = this;
@@ -22,12 +23,29 @@ namespace WindowsFormsApplication1
             ToolStripMenuItem file = new ToolStripMenuItem("&File");
             ToolStripMenuItem exit = new ToolStripMenuItem("&Exit", null,
                 new EventHandler(OnExit));
-            exit.ShortcutKeys = Keys.Control | Keys.X;
+
+            ToolStripMenuItem import = new ToolStripMenuItem();
+            import.Text = "Import";
+
+            file.DropDownItems.Add(import);
+
+            ToolStripMenuItem temp = new ToolStripMenuItem();
+            temp.Text = "Import newsfeed list...";
+            import.DropDownItems.Add(temp);
+
+            temp = new ToolStripMenuItem();
+            temp.Text = "Import bookmarks...";
+            import.DropDownItems.Add(temp);
+
+            temp = new ToolStripMenuItem();
+            temp.Text = "Import mail...";
+            import.DropDownItems.Add(temp);
+
             file.DropDownItems.Add(exit);
 
             ms.Items.Add(file);
             MainMenuStrip = ms;
-            Size = new Size(250, 200);
+            Size = new Size(380, 200);
 
             CenterToScreen();
         }
