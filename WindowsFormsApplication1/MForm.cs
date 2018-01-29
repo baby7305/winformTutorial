@@ -12,54 +12,89 @@ namespace WindowsFormsApplication1
 {
     public partial class MForm : Form
     {
+        private bool isDragging;
+        private int oldX, oldY;
 
-        private TextBox textBox;
-        private Button button;
+        private Rectangle dropRect;
+        private PictureBox picBox;
+        private Bitmap image;
+        private Brush brush;
 
         public MForm()
         {
-            InitForm();
+            ClientSize = new Size(350, 250);
+            Text = "Dragging Image";
+            Paint += new PaintEventHandler(OnPaint);
+
+            isDragging = false;
+            dropRect = new Rectangle(10, 10, 200, 160);
+            brush = Brushes.Gray;
+            picBox = new PictureBox();
+            loadImage();
+
+            picBox.Parent = this;
+            picBox.Location = new Point(100, 50);
+            picBox.Size = new Size(image.Width, image.Height);
+            picBox.Image = image;
+            picBox.Cursor = Cursors.Hand;
+
+            picBox.MouseDown += new MouseEventHandler(OnMouseDown);
+            picBox.MouseUp += new MouseEventHandler(OnMouseUp);
+            picBox.MouseMove += new MouseEventHandler(OnMouseMove);
+
             CenterToScreen();
+        }
+
+
+        void loadImage()
+        {
+            try
+            {
+                image = new Bitmap("res/image.jpg");
+            }
+            catch
+            {
+                Console.WriteLine("Error reading image");
+                Environment.Exit(1);
+            }
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
-            TextBox txt = (TextBox)sender;
-            txt.DoDragDrop(txt.Text, DragDropEffects.Copy);
+            isDragging = true;
+            oldX = e.X;
+            oldY = e.Y;
         }
 
-        private void OnDragEnter(object sender, DragEventArgs e)
+        private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            e.Effect = DragDropEffects.Copy;
+            if (isDragging)
+            {
+                picBox.Top = picBox.Top + (e.Y - oldY);
+                picBox.Left = picBox.Left + (e.X - oldX);
+            }
         }
 
-        private void OnDragDrop(object sender, DragEventArgs e)
+        private void OnMouseUp(object sender, MouseEventArgs e)
         {
-            Button button = (Button)sender;
-            button.Text = (string)e.Data.GetData(DataFormats.Text);
+            isDragging = false;
+
+            if (dropRect.Contains(picBox.Bounds))
+            {
+                brush = Brushes.Gold;
+            }
+            else
+            {
+                brush = Brushes.Gray;
+            }
+
+            Refresh();
         }
 
-
-        private void InitForm()
+        private void OnPaint(object sender, PaintEventArgs e)
         {
-            Text = "Drag & drop";
-            button = new Button();
-            textBox = new TextBox();
-            SuspendLayout();
-
-            button.AllowDrop = true;
-            button.Location = new Point(150, 50);
-            textBox.Location = new Point(15, 50);
-
-            button.DragDrop += new DragEventHandler(OnDragDrop);
-            button.DragEnter += new DragEventHandler(OnDragEnter);
-            textBox.MouseDown += new MouseEventHandler(OnMouseDown);
-
-            ClientSize = new Size(250, 200);
-            Controls.Add(button);
-            Controls.Add(textBox);
-            ResumeLayout();
+            Graphics g = e.Graphics;
+            g.FillRectangle(brush, dropRect);
         }
-        
     }
 }
