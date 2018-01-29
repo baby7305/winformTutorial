@@ -16,8 +16,8 @@ namespace WindowsFormsApplication1
 
         public MForm()
         {
-            Text = "Hatches";
-            Size = new Size(360, 300);
+            Text = "Gradients";
+            Size = new Size(350, 350);
 
             Paint += new PaintEventHandler(OnPaint);
 
@@ -29,34 +29,32 @@ namespace WindowsFormsApplication1
         {
             Graphics g = e.Graphics;
 
-            HatchBrush hb = new HatchBrush(HatchStyle.Cross, Color.Black, this.BackColor);
-            g.FillRectangle(hb, 10, 15, 90, 60);
+            Point pt1 = new Point(5, 5);
+            Point pt2 = new Point(25, 25);
+            Brush lg = new LinearGradientBrush(pt1, pt2, Color.Red, Color.Black);
+            g.FillRectangle(lg, 20, 20, 300, 40);
 
-            hb = new HatchBrush(HatchStyle.Percent05, Color.Black, this.BackColor);
-            g.FillRectangle(hb, 130, 15, 90, 60);
+            pt1 = new Point(5, 25);
+            pt2 = new Point(20, 2);
+            lg = new LinearGradientBrush(pt1, pt2, Color.Yellow, Color.Black);
+            g.FillRectangle(lg, 20, 80, 300, 40);
 
-            hb = new HatchBrush(HatchStyle.SolidDiamond, Color.Black, this.BackColor);
-            g.FillRectangle(hb, 250, 15, 90, 60);
+            pt1 = new Point(5, 25);
+            pt2 = new Point(2, 2);
+            lg = new LinearGradientBrush(pt1, pt2, Color.Green, Color.Black);
+            g.FillRectangle(lg, 20, 140, 300, 40);
 
-            hb = new HatchBrush(HatchStyle.DiagonalBrick, Color.Black, this.BackColor);
-            g.FillRectangle(hb, 10, 105, 90, 60);
+            pt1 = new Point(25, 25);
+            pt2 = new Point(15, 25);
+            lg = new LinearGradientBrush(pt1, pt2, Color.Blue, Color.Black);
+            g.FillRectangle(lg, 20, 200, 300, 40);
 
-            hb = new HatchBrush(HatchStyle.Divot, Color.Black, this.BackColor);
-            g.FillRectangle(hb, 130, 105, 90, 60);
+            pt1 = new Point(0, 10);
+            pt2 = new Point(0, 20);
+            lg = new LinearGradientBrush(pt1, pt2, Color.Orange, Color.Black);
+            g.FillRectangle(lg, 20, 260, 300, 40);
 
-            hb = new HatchBrush(HatchStyle.Wave, Color.Black, this.BackColor);
-            g.FillRectangle(hb, 250, 105, 90, 60);
-
-            hb = new HatchBrush(HatchStyle.ZigZag, Color.Black, this.BackColor);
-            g.FillRectangle(hb, 10, 195, 90, 60);
-
-            hb = new HatchBrush(HatchStyle.Sphere, Color.Black, this.BackColor);
-            g.FillRectangle(hb, 130, 195, 90, 60);
-
-            hb = new HatchBrush(HatchStyle.Shingle, Color.Black, this.BackColor);
-            g.FillRectangle(hb, 250, 195, 90, 60);
-
-            hb.Dispose();
+            lg.Dispose();
             g.Dispose();
         }
     }
