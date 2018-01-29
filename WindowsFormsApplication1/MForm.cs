@@ -16,7 +16,7 @@ namespace WindowsFormsApplication1
 
         public MForm()
         {
-            Text = "Colors";
+            Text = "Hatches";
             Size = new Size(360, 300);
 
             Paint += new PaintEventHandler(OnPaint);
@@ -29,18 +29,35 @@ namespace WindowsFormsApplication1
         {
             Graphics g = e.Graphics;
 
-            g.FillRectangle(Brushes.Sienna, 10, 15, 90, 60);
-            g.FillRectangle(Brushes.Green, 130, 15, 90, 60);
-            g.FillRectangle(Brushes.Maroon, 250, 15, 90, 60);
-            g.FillRectangle(Brushes.Chocolate, 10, 105, 90, 60);
-            g.FillRectangle(Brushes.Gray, 130, 105, 90, 60);
-            g.FillRectangle(Brushes.Coral, 250, 105, 90, 60);
-            g.FillRectangle(Brushes.Brown, 10, 195, 90, 60);
-            g.FillRectangle(Brushes.Teal, 130, 195, 90, 60);
-            g.FillRectangle(Brushes.Goldenrod, 250, 195, 90, 60);
+            HatchBrush hb = new HatchBrush(HatchStyle.Cross, Color.Black, this.BackColor);
+            g.FillRectangle(hb, 10, 15, 90, 60);
 
+            hb = new HatchBrush(HatchStyle.Percent05, Color.Black, this.BackColor);
+            g.FillRectangle(hb, 130, 15, 90, 60);
+
+            hb = new HatchBrush(HatchStyle.SolidDiamond, Color.Black, this.BackColor);
+            g.FillRectangle(hb, 250, 15, 90, 60);
+
+            hb = new HatchBrush(HatchStyle.DiagonalBrick, Color.Black, this.BackColor);
+            g.FillRectangle(hb, 10, 105, 90, 60);
+
+            hb = new HatchBrush(HatchStyle.Divot, Color.Black, this.BackColor);
+            g.FillRectangle(hb, 130, 105, 90, 60);
+
+            hb = new HatchBrush(HatchStyle.Wave, Color.Black, this.BackColor);
+            g.FillRectangle(hb, 250, 105, 90, 60);
+
+            hb = new HatchBrush(HatchStyle.ZigZag, Color.Black, this.BackColor);
+            g.FillRectangle(hb, 10, 195, 90, 60);
+
+            hb = new HatchBrush(HatchStyle.Sphere, Color.Black, this.BackColor);
+            g.FillRectangle(hb, 130, 195, 90, 60);
+
+            hb = new HatchBrush(HatchStyle.Shingle, Color.Black, this.BackColor);
+            g.FillRectangle(hb, 250, 195, 90, 60);
+
+            hb.Dispose();
             g.Dispose();
-
         }
     }
 }
