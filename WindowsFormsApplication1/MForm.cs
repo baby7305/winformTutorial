@@ -12,47 +12,54 @@ namespace WindowsFormsApplication1
 {
     public partial class MForm : Form
     {
-        private bool isDragging = false;
-        private int oldX, oldY;
+
+        private TextBox textBox;
         private Button button;
 
         public MForm()
         {
-            Text = "Drag & drop button";
-            Size = new Size(270, 180);
-
-            button = new Button();
-            button.Parent = this;
-            button.Cursor = Cursors.Hand;
-            button.Text = "Button";
-            button.Location = new Point(20, 20);
-
-            button.MouseDown += new MouseEventHandler(OnMouseDown);
-            button.MouseUp += new MouseEventHandler(OnMouseUp);
-            button.MouseMove += new MouseEventHandler(OnMouseMove);
-
+            InitForm();
             CenterToScreen();
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
-            isDragging = true;
-            oldX = e.X;
-            oldY = e.Y;
+            TextBox txt = (TextBox)sender;
+            txt.DoDragDrop(txt.Text, DragDropEffects.Copy);
         }
 
-        private void OnMouseMove(object sender, MouseEventArgs e)
+        private void OnDragEnter(object sender, DragEventArgs e)
         {
-            if (isDragging)
-            {
-                button.Top = button.Top + (e.Y - oldY);
-                button.Left = button.Left + (e.X - oldX);
-            }
+            e.Effect = DragDropEffects.Copy;
         }
 
-        private void OnMouseUp(object sender, MouseEventArgs e)
+        private void OnDragDrop(object sender, DragEventArgs e)
         {
-            isDragging = false;
+            Button button = (Button)sender;
+            button.Text = (string)e.Data.GetData(DataFormats.Text);
         }
+
+
+        private void InitForm()
+        {
+            Text = "Drag & drop";
+            button = new Button();
+            textBox = new TextBox();
+            SuspendLayout();
+
+            button.AllowDrop = true;
+            button.Location = new Point(150, 50);
+            textBox.Location = new Point(15, 50);
+
+            button.DragDrop += new DragEventHandler(OnDragDrop);
+            button.DragEnter += new DragEventHandler(OnDragEnter);
+            textBox.MouseDown += new MouseEventHandler(OnMouseDown);
+
+            ClientSize = new Size(250, 200);
+            Controls.Add(button);
+            Controls.Add(textBox);
+            ResumeLayout();
+        }
+        
     }
 }
